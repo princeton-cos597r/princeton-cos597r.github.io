@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>COS 597G: Understanding Large Language Models</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./image/princeton.png">
+    <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="./css/non-responsive.css" rel="stylesheet">
+
+<style type="text/css">
+  body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .sidebar-nav {
+    padding: 0px 0;
+  }
+  .page-header {
+    border-bottom: 1px solid #ADA9A9;
+    margin-bottom: 10px;
+  }
+
+  .topic-column {
+    column-width: 80em;
+  }
+
+  .recommended-column {
+    column-width: 100em;
+  }
+</style>
+
+<style type="text/css">
+</style>
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="row">
+    <div class="col-lg-15">
+
+      <div class="page-header">
+      <h2><b>COS 597R (Fall 2024): Deep Dive into Large Language Models</b></h2> <br>
+      </div>
+
+      <div class="bs-component">
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+        <td>Instructors</td> <td><a href="https://www.cs.princeton.edu/~arora/">Sanjeev Arora</a> (arora AT cs.princeton.edu) and <a href="https://www.cs.princeton.edu/~danqic/">Danqi Chen</a> (danqic AT cs.princeton.edu)</td>
+        </tr>
+        <tr>
+        <td>Teaching assistants</td> <td><a href="https://adithyabh.github.io/">Adithya Bhaskar</a> (adithyab AT princeton.edu) and <a href="https://tylerzhu.com/research/">Tyler Zhu</a> (tylerzhu AT princeton.edu)</td>
+        </tr>
+        <tr>
+        <td>Lectures</td> <td>Monday/Wednesday 10:30-11:50am</td>
+        </tr>
+        <tr>
+        <td>Location</td> <td><a href="https://classroominfo.princeton.edu/View.aspx?bl_id=0616&fl_id=A&rm_id=0616_A_CC12&bc=FRIEN&img=0616008.JPG&rn=008">Friend Center 008</a></td>
+        </tr>
+        <tr>
+        <td>Office hours</td> <td>TBD</td>
+        </tr>
+        <tr>
+        <td>Feedback form</td><td><a href="https://forms.gle/vUD1RieC1YcBSugw7">https://forms.gle/vUD1RieC1YcBSugw7</a></td>
+        <tr>
+        </tbody>
+        </table>
+
+        <p><b>We will use a Slack team for most communications this semester. You will be added to the Slack team after the first week. If you join the class late, just email us, and we’ll add you. Once you’re on Slack, we prefer Slack messages over emails for all logistical questions. We also encourage students to use Slack for discussions related to lecture content and projects.</b><br></p>
+
+        <p>Large language models (LLMs) have revolutionized natural language processing by enabling machines to generate, understand, and interact with human language in more sophisticated ways than ever before. Beyond technical advancements, LLMs are shaping societal interactions with technology, from enhancing accessibility for underserved communities to transforming education, healthcare, and creative industries. This course aims to provide a rigorous survey of current LLM research, including model architecture, data preparation, pre-training, post-training, alignment, and model deployment. The course focuses on conceptual understanding and research rather than engineering, and it is expected to be highly interactive.  Students are expected to read cutting-edge research papers regularly, participate in class discussion, and also complete a major project (in groups of 2-3) at the end, for which computational resources will be arranged. 
+        </p>
+
+        <p><b>Prerequisites:</b> COS484 or equivalent background (i.e., familiarity with fundamentals of deep learning/machine learning, Transformers, PyTorch). Open to all graduate students. Undergraduates need instructors' permission.</p>
+
+
+       <h3><b>Learning goals:</b></h3>
+          <ul>
+              <li>This course is intended to prepare you for performing cutting-edge research in natural language processing, especially topics related to pre-trained language models. We will discuss the state-of-the-art, their capabilities and limitations. </li>
+              <li>Practice your research skills, including reading research papers, conducting literature survey, oral presentations, as well as providing constructive feedback.</li>
+              <li>Gain hands-on experience through the final project, from brainstorming ideas to implementation and empirical evaluation and writing the final paper. </li>
+          </ul>
+
+
+      <h3><b>Course structure</b></h3>
+      <ul>
+          <li><b>Class participation (30%)</b>: In each class, we will cover 1-2 papers (see "required reading" in the schedule). You are required to read these papers in depth beforehand, and answer a pre-lecture question form before the class (there is a Google form linked in the schedule). These are due at <b>11:59pm on the day before the lecture</b>. Some questions are designed to test your understanding of the reading materials, and some questions are open-ended and prompt you to read the paper critically and write down your thoughts. This counts towards class participation - we will not grade the correctness but we will expect you to do the work, and submit reasonable answers. 
+          </li>
+          <li><b>Panel discussion (15%)</b>: We will schedule 12 panel discussions in the class from Week 4 to Week 9, with each panel consisting of 5 students and lasting 30 minutes (the lectures will be reduced to 50 minutes). Each panel will focus on one research paper related to the lecture topic of that day, and will comprise of the following structure: 
+            <ul>
+                <li>Each panel will be composed of 1 moderator, 2 reviewers, and 2 defenders.</li>
+                <li>The moderator will start with a short presentation (8 minutes) of the paper.</li>
+                <li>The 2 defenders will argue in favor of the paper, explaining why they believe the problem can be solved and suggesting possible follow-up work.</li>
+                <li>There will be multiple rounds of interaction. Reviewers are asked to send their major criticisms to the defenders at least 2 days before the lecture day, so the defenders have time to research and prepare their responses.</li>
+            </ul>
+          Reviewers are asked to send their major criticisms to the defenders at least 2 days before the lecture day, so the defenders have time to research and prepare their responses. We will send out the paper list and sign-up form for the panels by the end of Week 2. </li>
+          <li><b>Lecture scribing (10%)</b>: For each lecture, we will ask 3 students to scribe the lecture content, covering the technical content, research questions, and panel discussion.</li>
+          <li><b>Final project (35% + 10% for presentations)</b>: At the end of the semester, everyone is required to do a class project related to modern LLMs and submit a final paper. You should work as a <b>team of 2 or 3</b>. Everyone is required to submit a proposal by <b>Oct 7th 11:59pm</b>, and the final paper on the Dean's Date (<b>Dec 13th 11:59 pm</b>). In-class project presentations will be scheduled in the last three lectures.
+          </li><br>
+      </ul>
+
+      <h3><b>Schedule</b></h3>
+      <a name="class" id="class"></a>
+        <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Instructor</th>
+          <th class="topic-column">Topic/required reading</th>
+          <th class="recommended-column">Optional reading</th>
+          <th>Pre-lecture questions</th>
+          <th>Panel discussion</th>
+          <th>Scribes</th>
+        </tr>
+        </thead>
+        <tbody>
+
+<!-- week 1 -->
+<tr><td>Sep 4 (Wed)</td>
+        <td>Sanjeev</td>
+        <td>
+        Introduction
+        </td>
+        <td></td>
+        <td></td>
+        <td>N/A</td>
+        <td></td>
+        </tr>
+
+<!-- week 2 -->
+<tr><td>Sep 9 (Mon)</td>
+        <td>Danqi</td>
+        <td>
+        Pretraining 1<br>
+        <ul>
+                <li> <a href="https://arxiv.org/abs/2005.14165">The GPT-3 paper </a></li>
+        </ul>
+        </td>
+        <td></td>
+        <td></td>
+        <td>N/A</td>
+        <td>3 students</td>
+        </tr>
+
+<tr><td>Sep 11 (Wed)</td>
+        <td>Danqi</td>
+        <td>
+        Pretraining 2<br>
+        <ul>
+                <li> <a href="https://scontent-lga3-1.xx.fbcdn.net/v/t39.2365-6/453304228_1160109801904614_7143520450792086005_n.pdf?_nc_cat=108&ccb=1-7&_nc_sid=3c67a6&_nc_ohc=HbUYp0un48IQ7kNvgEzqYfD&_nc_ht=scontent-lga3-1.xx&oh=00_AYCrwI_OBYxM-FGq_wTr42pWDeD2Z-iqWD0rPTE5b6Zi-A&oe=66DCFFC7">The Llama 3 Herd of Models</a>, Sections 1-3 and 5.1</li>
+        </ul>
+        </td>
+        <td>
+          <ul>
+            <li><a href="https://arxiv.org/abs/2402.00838">OLMo: Accelerating the Science of Language Models</a></li>
+            <li><a href="https://arxiv.org/abs/2407.10671">Qwen2 Technical Report</a></li>
+          </ul>
+        </td>
+        <td></td>
+        <td>N/A</td>
+        <td>3 students</td>
+</tr>
+
+<!-- week 3 -->
+<tr><td>Sep 16 (Mon)</td>
+  <td>Sanjeev</td>
+  <td>
+  Scaling laws<br>
+  <ul>
+          <li> <a href="https://arxiv.org/abs/2203.15556">Training Compute-Optimal Large Language Models</a></li>
+  </ul>
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Sep 18 (Wed)</td>
+  <td>Sanjeev</td>
+  <td>
+  Emergent properties
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 4 -->
+<tr><td>Sep 23 (Mon)</td>
+  <td>Danqi</td>
+  <td>
+  Data preparation 1<br>
+  <ul>
+          <li> <a href="https://arxiv.org/abs/2402.00159">Dolma: an Open Corpus of Three Trillion Tokens for Language Model Pretraining Research</a></li>
+  </ul>
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 1:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Sep 25 (Wed)</td>
+  <td>Danqi</td>
+  <td>
+  Data preparation 2 <br>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2406.11794">DataComp-LM: In search of the next generation of training sets for language models</a></li>
+  </ul>
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 2:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 5 -->
+<tr><td>Sep 30 (Mon)</td>
+  <td>Danqi</td>
+  <td>
+  Post-training 1<br>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2109.01652">Finetuned Language Models Are Zero-Shot Learners</a></li>
+  </ul>
+  </td>
+  <td>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2306.04751">How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources</a></li>
+      <li><a href="https://arxiv.org/abs/2311.10702">Camels in a Changing Climate: Enhancing LM Adaptation with Tulu 2</a></li>
+    </ul>
+  </td>
+  <td></td>
+  <td>Panel 3:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Oct 2 (Wed)</td>
+  <td>Danqi</td>
+  <td>
+  Post-training 2 <br>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2305.18290">Direct Preference Optimization: Your Language Model is Secretly a Reward Model</a></li>
+  </ul>
+  </td>
+  <td>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2203.02155">Training language models to follow instructions with human feedback</a></li>
+      <li><a href="https://arxiv.org/abs/2405.14734">SimPO: Simple Preference Optimization with a Reference-Free Reward</a></li>
+    </ul>
+  </td>
+  <td></td>
+  <td>Panel 4:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 6 -->
+<tr><td>Oct 7 (Mon)</td>
+  <td>Sanjeev</td>
+  <td>
+  Alignment
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 5:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Oct 9 (Wed)</td>
+  <td>Sanjeev</td>
+  <td>
+  Constitutional AI
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 6:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 7 -->
+<tr><td>Oct 21 (Mon)</td>
+  <td>TBD</td>
+  <td>
+  Evaluation 1
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 7:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Oct 23 (Wed)</td>
+  <td>TBD</td>
+  <td>
+  Evaluation 2
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 8:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 8 -->
+<tr><td>Oct 28 (Mon)</td>
+  <td>TBD</td>
+  <td>
+  Topic TBD
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 9:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Oct 30 (Wed)</td>
+  <td>TBD</td>
+  <td>
+  Topic TBD
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 10:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 9 -->
+<tr><td>Nov 4 (Mon)</td>
+  <td>TBD</td>
+  <td>
+  Topic TBD
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 11:<br>5 students</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Nov 6 (Wed)</td>
+  <td>TBD</td>
+  <td>
+  Topic TBD
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>Panel 12:<br>5 students</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 10 -->
+<tr><td>Nov 11 (Mon)</td>
+  <td>Guest</td>
+  <td>
+  Guest Lecture #1
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Nov 13 (Wed)</td>
+  <td>Guest</td>
+  <td>
+  Guest Lecture #2
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 11 -->
+<tr><td>Nov 18 (Mon)</td>
+  <td>Guest</td>
+  <td>
+  Guest Lecture #3
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+</tr>
+
+<tr><td>Nov 20 (Wed)</td>
+  <td>Guest</td>
+  <td>
+  Guest Lecture #4
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td>3 students</td>
+  </tr>
+
+<!-- week 12 -->
+<tr><td>Nov 25 (Mon)</td>
+  <td>Students</td>
+  <td>
+  Project presentations
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td></td>
+</tr>
+
+<!-- week 13 -->
+<tr><td>Dec 2 (Mon)</td>
+  <td>Students</td>
+  <td>
+  Project presentations
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td></td>
+</tr>
+
+<tr><td>Dec 4 (Wed)</td>
+  <td>Students</td>
+  <td>
+  Project presentations
+  </td>
+  <td>
+  </td>
+  <td></td>
+  <td>N/A</td>
+  <td></td>
+</tr>
+
+</div><!--container-->
+<script src="./css/jquery-1.10.2.min.js"></script>
+<script src="./css/bootstrap.min.js"></script>
+</body></html>

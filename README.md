@@ -1,2 +1,2 @@
-# princeton-cos597r.github.io
-Course website for COS 597R
+# COS597G
+Fall 2022: Understanding Large Language Models 
