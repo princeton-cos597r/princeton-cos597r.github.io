@@ -1,2 +1,2 @@
-# COS597G
-Fall 2022: Understanding Large Language Models 
+# COS597R
+Fall 2024: Deep Dive into Large Language Models
